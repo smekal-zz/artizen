@@ -1,5 +1,5 @@
 # artizen
-website for Art Creators to showcase their creativities.
+App for Art Creators and Collectors to manage their ART work and Collaborate with ART Shippers.
 
 ## How to Build
 
@@ -12,3 +12,4 @@ npm start
 $ docker build -t "name"
 
 $ docker run -it -p 3000:3000 
+
