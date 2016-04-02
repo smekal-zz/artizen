@@ -1,12 +1,13 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    compress = require('compression'),
+    routes = require('./routes/index'),
+    users = require('./routes/users'),
+    session = require('express-session'),
 
 var app = express();
 
@@ -18,8 +19,17 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Should be placed before express.static
+app.use(compress({
+  filter: function (req, res) {
+    return (/json|text|javascript|css|font|svg/).test(res.getHeader('Content-Type'));
+  },
+  level: 9
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
